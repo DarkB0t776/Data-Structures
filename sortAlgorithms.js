@@ -111,3 +111,36 @@ const quickSort = (arr, left = 0, right = arr.length - 1) => {
 };
 
 // console.log(quickSort([4, 8, 2, -3, 100, 632, 1, 5, 7, 6, 3]));
+
+//================= Radix Sort(Numbers only) ==================
+const getDigit = (num, i) => {
+  return Math.floor((Math.abs(num) / Math.pow(10, i)) % 10);
+};
+
+const digitCount = (num) => {
+  if (num === 0) return 1;
+  return Math.floor(Math.log10(Math.abs(num))) + 1;
+};
+
+const mostDigits = (arr) => {
+  let maxDigits = 0;
+  for (let i = 0; i < arr.length; i++) {
+    maxDigits = Math.max(maxDigits, digitCount(arr[i]));
+  }
+  return maxDigits;
+};
+
+const radixSort = (nums) => {
+  let maxDigitsCount = mostDigits(nums);
+  for (let k = 0; k < maxDigitsCount; k++) {
+    let digitBuckets = Array.from({ length: 10 }, () => []);
+    for (let i = 0; i < nums.length; i++) {
+      digitBuckets[getDigit(nums[i], k)].push(nums[i]);
+    }
+    nums = [].concat(...digitBuckets);
+  }
+
+  return nums;
+};
+
+console.log(radixSort([123, 56, 2342, 122, 22, 6, 8, 856]));
